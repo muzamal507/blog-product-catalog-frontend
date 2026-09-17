@@ -1,0 +1,24 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #1a1a2e;
+  overflow-x: hidden;
+}
+
+a { text-decoration: none; }
+img { max-width: 100%; display: block; }
+button { cursor: pointer; }
+
+/* Smooth scrolling */
+html { scroll-behavior: smooth; }
+
+/* Bootstrap input focus color override */
+.form-control:focus,
+.form-select:focus {
+  border-color: #00b894 !important;
+  box-shadow: 0 0 0 3px rgba(0,184,148,.15) !important;
+}
+
+/* Object fit utility */
+.object-fit-cover { object-fit: cover; }
