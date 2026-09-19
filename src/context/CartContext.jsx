@@ -7,13 +7,14 @@ export function CartProvider({ children }) {
 
   const addToCart = (product) => {
     setCartItems(prev => {
-      const exists = prev.find(i => i.id === product.id)
+      const exists = prev.find(i => i.id === product.id && i.variantId === (product.variantId || null))
       if (exists) {
         return prev.map(i =>
-          i.id === product.id ? { ...i, qty: i.qty + 1 } : i
+          i.id === product.id && i.variantId === (product.variantId || null)
+            ? { ...i, qty: i.qty + (product.qty || 1) } : i
         )
       }
-      return [...prev, { ...product, qty: 1 }]
+      return [...prev, { ...product, qty: product.qty || 1 }]
     })
   }
 

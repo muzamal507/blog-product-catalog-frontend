@@ -20,19 +20,19 @@ function PublicRoutes() {
   return (
     <Routes>
       <Route element={<PublicLayout />}>
-        <Route index                  element={<Home />} />
-        <Route path="catalog"         element={<Catalog />} />
-        <Route path="product/:id"     element={<ProductDetail />} />
-        <Route path="categories"      element={<CategoriesPage />} />
-        <Route path="brands"          element={<BrandsPage />} />
-        <Route path="testimonials"    element={<TestimonialsPage />} />
-        <Route path="cart"            element={<Cart />} />
-        <Route path="checkout"        element={<Checkout />} />
-        <Route path="blogs"           element={<Blogs />} />
-        <Route path="blogs/:slug"     element={<BlogDetail />} />
-        <Route path="about"           element={<About />} />
-        <Route path="contact"         element={<Contact />} />
-        <Route path="*"               element={<NotFound />} />
+        <Route index element={<Home />} />
+        <Route path="catalog" element={<Catalog />} />
+        <Route path="product/:id" element={<ProductDetail />} />
+        <Route path="categories" element={<CategoriesPage />} />
+        <Route path="brands" element={<BrandsPage />} />
+        <Route path="testimonials" element={<TestimonialsPage />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="checkout" element={<Checkout />} />
+        <Route path="blogs" element={<Blogs />} />
+        <Route path="blogs/:slug" element={<BlogDetail />} />
+        <Route path="about" element={<About />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   )

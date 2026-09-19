@@ -3,7 +3,10 @@ import api from './api'
 const productService = {
   // PUBLIC
   getAll:      (params = {}) => api.get('/product-list', { params }),
-  getBySlug:   (slug)        => api.get(`/product/${slug}`),
+  
+  // ✅ id se fetch — slug ki jagah id use ho raha hai
+  getBySlug: (id) => api.get(`/admin/products/${id}`),
+
   getFeatured: ()            => api.get('/product-list', { params: { is_featured: 1, per_page: 3 } }),
   getNew:      ()            => api.get('/product-list', { params: { is_new: 1, per_page: 6 } }),
 
