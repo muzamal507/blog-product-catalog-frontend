@@ -12,9 +12,10 @@ import Cart           from '../pages/public/Cart'
 import Checkout       from '../pages/public/Checkout'
 import Blogs          from '../pages/public/Blogs'
 import BlogDetail     from '../pages/public/Blogs/BlogDetail'
-import About          from '../pages/public/About'
-import Contact        from '../pages/public/Contact'
 import NotFound       from '../pages/public/NotFound'
+import Contact        from '../pages/public/Contact'
+import AboutPage      from '../pages/public/About'
+import PublicPage     from '../pages/public/Page'
 
 function PublicRoutes() {
   return (
@@ -30,8 +31,9 @@ function PublicRoutes() {
         <Route path="checkout" element={<Checkout />} />
         <Route path="blogs" element={<Blogs />} />
         <Route path="blogs/:slug" element={<BlogDetail />} />
-        <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="about" element={<AboutPage />}   />
+        <Route path="page/:slug" element={<PublicPage />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

@@ -1,24 +1,17 @@
-import api from "./api";
+import api from './api'
 
-// Fetch public settings for the blog site
-export const getSettings = async () => {
-    const response = await api.get("/setting-list");
-    return response.data;
-};
+const settingService = {
+  // PUBLIC — site settings fetch
+  getPublic: () => api.get('/setting-list'),
 
-export const editSetting = (id) =>
-    api.get(`/settings/${id}`);
+  // ADMIN
+  edit:   (id)       => api.get(`/admin/settings/${id}`),
+  store:  (data)     => api.post('/admin/settings', data, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }),
+  update: (id, data) => api.post(`/admin/settings/${id}/update`, data, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }),
+}
 
-export const createSetting = (data) =>
-    api.post("/settings", data, {
-        headers: {
-            "Content-Type": "multipart/form-data",
-        },
-    });
-
-export const updateSetting = (id, data) =>
-    api.post(`/settings/${id}/update`, data, {
-        headers: {
-            "Content-Type": "multipart/form-data",
-        },
-    });
+export default settingService

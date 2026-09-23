@@ -1,16 +1,26 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import PublicRoutes from './routes/PublicRoutes'
-import AdminRoutes from './routes/AdminRoutes'
+import ErrorBoundary      from './components/ErrorBoundary'
+import AdminErrorBoundary from './components/AdminErrorBoundary'
+import PublicRoutes       from './routes/PublicRoutes'
+import AdminRoutes        from './routes/AdminRoutes'
 
 function App() {
   return (
     <Routes>
-      {/* Public Routes */}
-      <Route path="/*" element={<PublicRoutes />} />
+      {/* Public site */}
+      <Route path="/*" element={
+        <ErrorBoundary>
+          <PublicRoutes />
+        </ErrorBoundary>
+      } />
 
-      {/* Admin Routes */}
-      <Route path="/admin/*" element={<AdminRoutes />} />
+      {/* Admin panel */}
+      <Route path="/admin/*" element={
+        <AdminErrorBoundary>
+          <AdminRoutes />
+        </AdminErrorBoundary>
+      } />
     </Routes>
   )
 }

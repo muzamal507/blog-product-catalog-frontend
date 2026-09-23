@@ -1,47 +1,19 @@
-import api from "./api";
+import api from './api'
 
-/**
- * Fetch sliders from /slider-list
- * @param {Object} params - search, status, sort, per_page, page
- */
-export const getSliders = async (params = {}) => {
-    const response = await api.get("/slider-list", {
-        params: { 
-            // status: "Active", 
-            per_page: 10, 
-            ...params },
-    });
-    return response.data;
-};
+const sliderService = {
+  // PUBLIC
+  getAll: (params = {}) =>
+    api.get('/slider-list', { params: { per_page: 10, ...params } }),
 
-export const getSlider = (id) =>
-    api.get(`/edit-slider/${id}`);
+  // ADMIN
+  getById:       (id)       => api.get(`/admin/edit-slider/${id}`),
+  create:        (data)     => api.post('/admin/add-slider', data, { headers: { 'Content-Type': 'multipart/form-data' }}),
+  update:        (id, data) => api.post(`/admin/update-slider/${id}`, data, { headers: { 'Content-Type': 'multipart/form-data' }}),
+  destroy:       (id)       => api.delete(`/admin/delete-slider/${id}`),
+  restore:       (id)       => api.post(`/admin/restore-slider/${id}`),
+  forceDelete:   (id)       => api.delete(`/admin/force-delete-slider/${id}`),
+  trashedList:   ()         => api.get('/admin/delete-slider-list'),
+  changeStatus:  (id)       => api.post(`/admin/status-slider/${id}`),
+}
 
-export const createSlider = (data) =>
-    api.post("/add-slider", data, {
-        headers: {
-            "Content-Type": "multipart/form-data",
-        },
-    });
-
-export const updateSlider = (id, data) =>
-    api.post(`/update-slider/${id}`, data, {
-        headers: {
-            "Content-Type": "multipart/form-data",
-        },
-    });
-
-export const deleteSlider = (id) =>
-    api.delete(`/delete-slider/${id}`);
-
-export const restoreSlider = (id) =>
-    api.post(`/restore-slider/${id}`);
-
-export const forceDeleteSlider = (id) =>
-    api.delete(`/force-delete-slider/${id}`);
-
-export const sliderTrash = () =>
-    api.get("/delete-slider-list");
-
-export const changeSliderStatus = (id, status) =>
-    api.post(`/status-slider/${id}`, { status });
+export default sliderService

@@ -1,0 +1,107 @@
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import blogPageService from '../../../services/blog/pageService'
+
+function PageTrash() {
+  const [items, setItems]         = useState([])
+  const [loading, setLoading]     = useState(true)
+  const [restoring, setRestoring] = useState(null)
+  const [deleting, setDeleting]   = useState(null)
+
+  const fetchTrash = () => {
+    setLoading(true)
+    blogPageService.trashedList()
+      .then(res => setItems(res.data.data?.data || res.data.page?.data || []))
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }
+
+  useEffect(() => { fetchTrash() }, [])
+
+  const handleRestore = async (id) => {
+    setRestoring(id)
+    try { await blogPageService.restore(id); fetchTrash() }
+    catch (_) {} finally { setRestoring(null) }
+  }
+
+  const handleForce = async (id) => {
+    if (!window.confirm('Permanently delete? Cannot be undone.')) return
+    setDeleting(id)
+    try { await blogPageService.forceDelete(id); fetchTrash() }
+    catch (_) {} finally { setDeleting(null) }
+  }
+
+  return (
+    <div>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h4 className="fw-bold mb-1">Page Trash</h4>
+          <small className="text-muted">Restore or permanently delete pages</small>
+        </div>
+        <Link to="/admin/pages" className="btn btn-outline-secondary btn-sm">← Back</Link>
+      </div>
+
+      <div className="card border-0 shadow-sm" style={{ borderRadius: 12 }}>
+        <div className="table-responsive">
+          <table className="table table-hover align-middle mb-0" style={{ fontSize: 14 }}>
+            <thead className="table-light">
+              <tr>
+                <th>Title</th>
+                <th>Template</th>
+                <th>Deleted At</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr><td colSpan={4} className="text-center py-5">
+                  <div className="spinner-border" style={{ color: '#00b894' }} />
+                </td></tr>
+              ) : items.length === 0 ? (
+                <tr><td colSpan={4} className="text-center py-5 text-muted">
+                  <div style={{ fontSize: 40 }}>🗑️</div>
+                  <p className="mt-2">Trash is empty.</p>
+                </td></tr>
+              ) : items.map(pg => (
+                <tr key={pg.id}>
+                  <td>
+                    <div className="fw-semibold">{pg.title}</div>
+                    <code style={{ fontSize: 11, color: '#6b7280' }}>/{pg.slug}</code>
+                  </td>
+                  <td>
+                    <span className="badge bg-light text-dark border" style={{ fontSize: 11 }}>
+                      {pg.template}
+                    </span>
+                  </td>
+                  <td className="text-muted" style={{ fontSize: 12 }}>
+                    {new Date(pg.deleted_at).toLocaleDateString()}
+                  </td>
+                  <td>
+                    <div className="d-flex gap-2">
+                      <button className="btn btn-sm btn-outline-success"
+                        disabled={restoring === pg.id}
+                        onClick={() => handleRestore(pg.id)}>
+                        {restoring === pg.id
+                          ? <span className="spinner-border spinner-border-sm" />
+                          : '♻️ Restore'}
+                      </button>
+                      <button className="btn btn-sm btn-outline-danger"
+                        disabled={deleting === pg.id}
+                        onClick={() => handleForce(pg.id)}>
+                        {deleting === pg.id
+                          ? <span className="spinner-border spinner-border-sm" />
+                          : '🗑 Delete Forever'}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default PageTrash

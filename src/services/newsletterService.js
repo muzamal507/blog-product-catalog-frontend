@@ -1,37 +1,19 @@
-import api from "./api";
+import api from './api'
 
-// Subscribe to newsletter
-export const subscribeNewsletter = async (email) => {
-    const response = await api.post("/add-newsletter", {
-        email: email,
-        status: "Subscribed"
-    });
-    return response.data;
-};
+const newsletterService = {
+  // PUBLIC
+  subscribe: (email) =>
+    api.post('/add-newsletter', { email, status: 'Subscribed' }),
 
-export const createNewsletter = (data) =>
-    api.post("/add-newsletter", data);
+  // ADMIN
+  getAll:         (params = {}) => api.get('/newsletter-list', { params }),
+  getById:        (id)          => api.get(`/admin/newsletters/${id}`),
+  update:         (id, data)    => api.put(`/admin/newsletters/${id}`, data),
+  destroy:        (id)          => api.delete(`/admin/newsletters/${id}/trash`),
+  changeStatus:   (id)          => api.patch(`/admin/newsletterS/${id}/status`),
+  trashedList:    ()            => api.get('/admin/newsletters/trash'),
+  restore:        (id)          => api.patch(`/admin/newsletters/${id}/restore`),
+  forceDelete:    (id)          => api.delete(`/admin/newsletters/${id}/force`),
+}
 
-export const getNewsletters = (params) =>
-    api.get("/newsletter-list", { params });
-
-export const getNewsletterById = (id) =>
-    api.get(`/newsletters/${id}`);
-
-export const updateNewsletter = (id, data) =>
-    api.put(`/newsletters/${id}`, data);
-
-export const deleteNewsletter = (id) =>
-    api.delete(`/newsletters/${id}/trash`);
-
-export const changeNewsletterStatus = (id) =>
-    api.patch(`/newsletterS/${id}/status`);
-
-export const getTrashNewsletters = () =>
-    api.get("/newsletters/trash");
-
-export const restoreNewsletter = (id) =>
-    api.patch(`/newsletters/${id}/restore`);
-
-export const forceDeleteNewsletter = (id) =>
-    api.delete(`/newsletters/${id}/force`);
+export default newsletterService

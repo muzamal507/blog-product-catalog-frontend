@@ -38,6 +38,30 @@ import AdminTestimonials from '../pages/admin/Testimonials'
 import TestimonialForm from '../pages/admin/Testimonials/TestimonialForm'
 import TestimonialTrash from '../pages/admin/Testimonials/TestimonialTrash'
 
+import AdminContactMessages from '../pages/admin/ContactMessages'
+import AdminSettings from '../pages/admin/Settings'
+
+import AdminSliders from '../pages/admin/Sliders'
+import SliderForm from '../pages/admin/Sliders/SliderForm'
+
+import AdminNewsletter from '../pages/admin/Newsletter'
+
+// Blog Categories
+import AdminBlogCategories from '../pages/admin/BlogCategories'
+import BlogCategoryForm    from '../pages/admin/BlogCategories/CategoryForm'
+import BlogCategoryTrash   from '../pages/admin/BlogCategories/CategoryTrash'
+
+// Blog Tags
+import AdminBlogTags from '../pages/admin/BlogTags'
+import TagForm       from '../pages/admin/BlogTags/TagForm'
+import TagTrash      from '../pages/admin/BlogTags/TagTrash'
+
+// Pages
+import AdminPages from '../pages/admin/Pages'
+import PageForm   from '../pages/admin/Pages/PageForm'
+import PageTrash  from '../pages/admin/Pages/PageTrash'
+
+import AdminNotFound from '../pages/admin/NotFound'
 
 function AdminRoutes() {
     return (
@@ -99,6 +123,34 @@ function AdminRoutes() {
                     <Route path="orders" element={<AdminOrders />} />
                     <Route path="orders/create" element={<CreateOrder />} />
                     <Route path="orders/:id" element={<OrderDetail />} />
+
+                    <Route path="contact-messages" element={<AdminContactMessages />} />
+                    <Route path="settings" element={<AdminSettings />} />
+
+                    <Route path="sliders" element={<AdminSliders />} />
+                    <Route path="sliders/add" element={<SliderForm />} />
+                    <Route path="sliders/edit/:id" element={<SliderForm />} />
+
+                    <Route path="newsletter" element={<AdminNewsletter />} />
+
+                    // Blog Categories
+                    <Route path="blog-categories" element={<AdminBlogCategories />} />
+                    <Route path="blog-categories/add" element={<BlogCategoryForm />} />
+                    <Route path="blog-categories/edit/:id" element={<BlogCategoryForm />} />
+                    <Route path="blog-categories/trash" element={<BlogCategoryTrash />} />
+
+                    // Blog Tags
+                    <Route path="blog-tags" element={<AdminBlogTags />} />
+                    <Route path="blog-tags/edit/:id" element={<TagForm />} />
+                    <Route path="blog-tags/trash" element={<TagTrash />} />
+
+                    // Pages
+                    <Route path="pages" element={<AdminPages />} />
+                    <Route path="pages/add" element={<PageForm />} />
+                    <Route path="pages/edit/:id" element={<PageForm />} />
+                    <Route path="pages/trash" element={<PageTrash />} />
+
+                    <Route path="*" element={<AdminNotFound />} />
 
                 </Route>
             </Route>
