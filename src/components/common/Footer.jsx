@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSettings } from '../../context/SettingContext'
-// import newsletterService from '../../services/newsletterService'
+import newsletterService from '../../services/newsletterService'
 
 function Footer() {
   const { settings } = useSettings()
@@ -9,6 +9,7 @@ function Footer() {
   const [email, setEmail] = useState('')
   const [joined, setJoined] = useState(false)
   const [newsletterError, setNewsletterError] = useState('')
+  const [newsletterLoading, setNewsletterLoading] = useState(false)
 
   const siteName = settings?.site_name || "Tahir Electronics"
   const siteDescription = settings?.site_description ||
@@ -24,38 +25,48 @@ function Footer() {
   // --------------------------------------------------
   // Newsletter
   // --------------------------------------------------
-
   const handleNewsletter = async () => {
-    if (!email.trim()) return
+    const trimmedEmail = email.trim()
+
+    if (!trimmedEmail) {
+      setNewsletterError('Please enter your email address.')
+      return
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+    if (!emailRegex.test(trimmedEmail)) {
+      setNewsletterError('Please enter a valid email address.')
+      return
+    }
 
     setNewsletterError('')
+    setNewsletterLoading(true)
 
     try {
-
-      /*
-       * Agar newsletterService bana hua hai
-       * to yahan uncomment karo:
-       *
-       * await newsletterService.subscribe(email)
-       */
+      await newsletterService.subscribe(trimmedEmail)
 
       setJoined(true)
       setEmail('')
 
     } catch (error) {
 
-      setNewsletterError(
+      const message =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
         'Something went wrong. Please try again.'
-      )
 
+      setNewsletterError(message)
+
+    } finally {
+      setNewsletterLoading(false)
     }
   }
-
 
   // --------------------------------------------------
   // Social Links
   // --------------------------------------------------
-
   const socialLinks = [
     [settings?.facebook_url, '📘', 'Facebook'],
     [settings?.instagram_url, '📸', 'Instagram'],
@@ -68,7 +79,6 @@ function Footer() {
   // --------------------------------------------------
   // Navigation Links
   // --------------------------------------------------
-
   const navigationLinks = [
     ['/', 'Home'],
     ['/catalog', 'Catalog'],
@@ -241,23 +251,32 @@ function Footer() {
           ) : (
             <div className="mb-3">
               <div className="d-flex gap-2">
-                <input type="email" className="form-control form-control-sm"
-                  placeholder="your@email.com" value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  style={{background: 'rgba(170, 189, 187, 0.08)',
-                    border: '1px solid rgba(216, 197, 197, 0.15)',
-                    color: '#fff'}}
+                <input type="email" className="form-control form-control-sm" 
+                  placeholder="your@email.com" value={email} disabled={newsletterLoading}
+                  onChange={(e) => { setEmail(e.target.value), setNewsletterError('')}}
+                  onKeyDown={(e) => {if (e.key === 'Enter') {handleNewsletter()} }}
+                  style={{background: 'rgba(255,255,255,.08)', color: '#fff',
+                    border: '1px solid rgba(255,255,255,.15)'}}
                 />
 
                 <button type="button" className="btn btn-sm text-white fw-semibold text-nowrap"
-                  style={{background: '#00b894', flexShrink: 0}} onClick={handleNewsletter}
+                  disabled={newsletterLoading} onClick={handleNewsletter}
+                  style={{background: '#00b894', flexShrink: 0, minWidth: 60}} 
                 >
-                  Join
+                  {newsletterLoading ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm me-1"
+                        role="status" aria-hidden="true" />
+                      ...
+                    </>
+                  ) : (
+                    'Join'
+                  )}
                 </button>
               </div>
 
               {newsletterError && (
-                <small className="text-danger d-block mt-1" >
+                <small className="d-block mt-2" style={{color: '#ff6b6b', fontSize: 12}} >
                   {newsletterError}
                 </small>
               )}

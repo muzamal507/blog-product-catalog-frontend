@@ -45,6 +45,7 @@ import AdminSliders from '../pages/admin/Sliders'
 import SliderForm from '../pages/admin/Sliders/SliderForm'
 
 import AdminNewsletter from '../pages/admin/Newsletter'
+import SendNewsletter from '../pages/admin/Newsletter/SendNewsletter'
 
 // Blog Categories
 import AdminBlogCategories from '../pages/admin/BlogCategories'
@@ -132,6 +133,7 @@ function AdminRoutes() {
                     <Route path="sliders/edit/:id" element={<SliderForm />} />
 
                     <Route path="newsletter" element={<AdminNewsletter />} />
+                    <Route path="newsletter/send" element={<SendNewsletter />} />
 
                     // Blog Categories
                     <Route path="blog-categories" element={<AdminBlogCategories />} />

@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import newsletterService from '../../../services/newsletterService'
+import { useNavigate } from 'react-router-dom'
 
 function AdminNewsletter() {
+  const navigate = useNavigate() 
   const [subscribers, setSubscribers] = useState([])
   const [loading, setLoading]         = useState(true)
   const [search, setSearch]           = useState('')
@@ -51,6 +53,14 @@ function AdminNewsletter() {
         <div>
           <h4 className="fw-bold mb-1">Newsletter Subscribers</h4>
           <small className="text-muted">Manage email subscribers</small>
+        </div>
+        <div className="">
+          <button type="button" className="btn text-white d-flex align-items-center gap-2"
+            onClick={() => navigate('/admin/newsletter/send')}
+            style={{background: '#00b894', border: 'none', borderRadius: 8,
+              padding: '10px 18px', fontWeight: 600}} >
+            ✉️ Send Newsletter
+          </button>
         </div>
       </div>
 
