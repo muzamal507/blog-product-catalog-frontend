@@ -1,35 +1,18 @@
-import api from "./api";
+import api from './api'
 
-// Fetch the list of navigation menu links
-export const getMenus = async () => {
-    const response = await api.get("/menu-list");
-    return response.data;
-};
+const menuService = {
+  // PUBLIC
+  getAll: (params = {}) => api.get('/menu-list', { params }),
 
-export const editMenu = (id) =>
-    api.get(`/menus/${id}`);
+  // ADMIN
+  getById:      (id)              => api.get(`/admin/menus/${id}`),
+  store:        (data)            => api.post('/admin/add-menu', data),
+  update:       (menuId, itemId, data) => api.put(`/admin/menus/${menuId}/item/${itemId}`, data),
+  changeStatus: (id, status)      => api.patch(`/admin/menus/${id}/status`, { status }),
+  destroy:      (id)              => api.delete(`/admin/menus/${id}/trash`),
+  restore:      (id)              => api.patch(`/admin/menus/${id}/restore`),
+  forceDelete:  (id)              => api.delete(`/admin/menus/${id}/force`),
+  trashedList:  ()                => api.get('/admin/menus/trash'),
+}
 
-export const createMenu = (data) =>
-    api.post("/add-menu", data);
-
-export const updateMenu = (menuId, itemId, data) =>
-    api.put(`/menus/${menuId}/item/${itemId}`, data);
-
-export const deleteMenu = (id) =>
-    api.delete(`/menus/${id}/trash`);
-
-export const restoreMenu = (id) =>
-    api.patch(`/menus/${id}/restore`);
-
-export const forceDeleteMenu = (id) =>
-    api.delete(`/menus/${id}/force`);
-
-export const changeMenuStatus = (id, status) =>
-    api.patch(`/menus/${id}/status`, {
-        status,
-    });
-
-export const getTrashMenus = () =>
-    api.get("/menus/trash");
-
-
+export default menuService

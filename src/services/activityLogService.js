@@ -1,7 +1,9 @@
-import api from "./api";
+import api from './api'
 
-export const getActivities = (params) =>
-    api.get("/activity-list", { params });
+const activityService = {
+  getAll:  (params = {}) => api.get('/admin/activity-list', { params }),
+  getById: (id)          => api.get(`/admin/activity/${id}`),
+  destroy: (id)          => api.delete(`/admin/delete-activity/${id}`),
+}
 
-export const deleteActivity = (id) =>
-    api.delete(`/delete-activity/${id}`);
+export default activityService

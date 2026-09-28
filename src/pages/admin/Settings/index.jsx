@@ -13,7 +13,7 @@ const INITIAL = {
   instagram_url:        '',
   linkedin_url:         '',
   youtube_url:          '',
-  copyright:            '',
+  copyright:            'Tahir Tech Solutions.',
   timezone:             'Asia/Karachi',
   language:             'English',
   posts_per_page:       10,
@@ -56,7 +56,7 @@ function AdminSettings() {
             instagram_url:         s.instagram_url || '',
             linkedin_url:          s.linkedin_url || '',
             youtube_url:           s.youtube_url || '',
-            copyright:             s.copyright || '',
+            copyright:             s.copyright || 'Tahir Tech Solutions.',
             timezone:              s.timezone || 'Asia/Karachi',
             language:              s.language || 'English',
             posts_per_page:        s.posts_per_page || 10,
@@ -203,12 +203,12 @@ function AdminSettings() {
                     value={form.site_description} onChange={handleChange} />
                 </div>
 
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <label className="form-label fw-semibold" style={{ fontSize: 13 }}>Copyright</label>
                   <input type="text" name="copyright" className="form-control"
                     placeholder="© 2026 AeroLux. All rights reserved."
                     value={form.copyright} onChange={handleChange} />
-                </div>
+                </div> */}
 
                 <div className="row g-3">
                   <div className="col-6">

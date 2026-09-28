@@ -1,112 +1,21 @@
-import api from "./api";
+import api from './api'
 
-/*
-|--------------------------------------------------------------------------
-| Users List
-|--------------------------------------------------------------------------
-*/
-export const getUsers = async (params = {}) => {
-    const response = await api.get("/user-list", {
-        params,
-    });
-    return response.data;
-};
+const userService = {
+  // ADMIN
+  getAll:       (params = {}) => api.get('/admin/user-list', { params }),
+  getById:      (id)          => api.get(`/admin/users/${id}`),
+  getRoles:     ()            => api.get('/admin/roles'),
+  store:        (data)        => api.post('/admin/create-user', data, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }),
+  update:       (id, data)    => api.post(`/admin/users/${id}/update`, data, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }),
+  changeStatus: (id)          => api.post(`/admin/users/${id}/status`),
+  destroy:      (id)          => api.delete(`/admin/users/${id}/trash`),
+  restore:      (id)          => api.post(`/admin/users/${id}/restore`),
+  forceDelete:  (id)          => api.delete(`/admin/users/${id}/force`),
+  trashedList:  (params = {}) => api.get('/admin/users/trash', { params }),
+}
 
-// User Role
-export const getRoles = async () => {
-    const response = await api.get("/roles");
-    return response.data;
-};
-
-/*
-|--------------------------------------------------------------------------
-| Get Single User
-|--------------------------------------------------------------------------
-*/
-export const getUser = async (id) => {
-    const response = await api.get(`/users/${id}`);
-    return response.data.data;
-};
-
-/*
-|--------------------------------------------------------------------------
-| Create User
-|--------------------------------------------------------------------------
-*/
-export const createUser = async (data) => {
-    return await api.post("/create-user", data, {
-        headers: {
-            "Content-Type": "multipart/form-data",
-        },
-    });
-};
-
-/*
-|--------------------------------------------------------------------------
-| Update User
-|--------------------------------------------------------------------------
-*/
-
-export const updateUser = async (id, data) => {
-    return await api.post(`/users/${id}/update`, data, {
-        headers: {
-            "Content-Type": "multipart/form-data",
-        },
-    });
-};
-
-/*
-|--------------------------------------------------------------------------
-| Change Status
-|--------------------------------------------------------------------------
-*/
-export const changeUserStatus = async (id, status) => {
-    return await api.post(`/users/${id}/status`, {
-        status,
-    });
-};
-
-// status route
-export const getStatuses = async () => {
-    const response = await api.get("/user-statuses");
-    return response.data;
-};
-
-/*
-|--------------------------------------------------------------------------
-| Soft Delete
-|--------------------------------------------------------------------------
-*/
-export const deleteUser = async (id) => {
-    return await api.delete(`/users/${id}/trash`);
-};
-
-/*
-|--------------------------------------------------------------------------
-| Trash List
-|--------------------------------------------------------------------------
-*/
-export const getDeletedUsers = async (params = {}) => {
-    const response = await api.get("/users/trash", {
-        params,
-    });
-    return response.data;
-};
-
-/*
-|--------------------------------------------------------------------------
-| Restore
-|--------------------------------------------------------------------------
-*/
-export const restoreUser = async (id) => {
-    return await api.post(`/users/${id}/restore`);
-};
-
-/*
-|--------------------------------------------------------------------------
-| Force Delete
-|--------------------------------------------------------------------------
-*/
-export const forceDeleteUser = async (id) => {
-    return await api.delete(`/users/${id}/force`);
-};
+export default userService

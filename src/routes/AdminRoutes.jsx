@@ -62,7 +62,23 @@ import AdminPages from '../pages/admin/Pages'
 import PageForm   from '../pages/admin/Pages/PageForm'
 import PageTrash  from '../pages/admin/Pages/PageTrash'
 
+import AdminMenus   from '../pages/admin/Menus'
+import MenuForm     from '../pages/admin/Menus/MenuForm'
+import MenuTrash    from '../pages/admin/Menus/MenuTrash'
+
+import AdminUsers from '../pages/admin/Users'
+import UserForm   from '../pages/admin/Users/UserForm'
+import UserTrash  from '../pages/admin/Users/UserTrash'
+
+import AdminSeoSettings from '../pages/admin/SeoSettings'
 import AdminNotFound from '../pages/admin/NotFound'
+import AdminActivityLog from '../pages/admin/ActivityLog'
+
+import AdminComments    from '../pages/admin/Comments'
+import CommentTrash     from '../pages/admin/Comments/CommentTrash'
+import CommentReports   from '../pages/admin/Comments/CommentReports'
+
+import AdminNotifications from '../pages/admin/Notifications'
 
 function AdminRoutes() {
     return (
@@ -80,7 +96,13 @@ function AdminRoutes() {
                     {/* Dashboard */}
                     <Route index element={<Dashboard />} />
 
-                        // PRODUCTS
+                    {/* Users */}
+                    <Route path="users" element={<AdminUsers />} />
+                    <Route path="users/add" element={<UserForm />} />
+                    <Route path="users/edit/:id" element={<UserForm />} />
+                    <Route path="users/trash" element={<UserTrash />} />
+
+                        {/* PRODUCTS */}
                     <Route path="products" element={<AdminProducts />} />
                     <Route path="products/add" element={<ProductForm />} />
                     <Route path="products/edit/:id" element={<ProductForm />} />
@@ -135,24 +157,39 @@ function AdminRoutes() {
                     <Route path="newsletter" element={<AdminNewsletter />} />
                     <Route path="newsletter/send" element={<SendNewsletter />} />
 
-                    // Blog Categories
+                    {/* Blog Categories */}
                     <Route path="blog-categories" element={<AdminBlogCategories />} />
                     <Route path="blog-categories/add" element={<BlogCategoryForm />} />
                     <Route path="blog-categories/edit/:id" element={<BlogCategoryForm />} />
                     <Route path="blog-categories/trash" element={<BlogCategoryTrash />} />
 
-                    // Blog Tags
+                    {/* Blog Tags */}
                     <Route path="blog-tags" element={<AdminBlogTags />} />
                     <Route path="blog-tags/edit/:id" element={<TagForm />} />
                     <Route path="blog-tags/trash" element={<TagTrash />} />
 
-                    // Pages
+                    {/* Pages */}
                     <Route path="pages" element={<AdminPages />} />
                     <Route path="pages/add" element={<PageForm />} />
                     <Route path="pages/edit/:id" element={<PageForm />} />
                     <Route path="pages/trash" element={<PageTrash />} />
 
+                    {/* Menus */}
+                    <Route path="menus" element={<AdminMenus />} />
+                    <Route path="menus/add" element={<MenuForm />} />
+                    <Route path="menus/edit/:id" element={<MenuForm />} />
+                    <Route path="menus/trash" element={<MenuTrash />} />
+
+                    {/* SEO Settings */}
+                    <Route path="seo-settings"   element={<AdminSeoSettings />} />
+
                     <Route path="*" element={<AdminNotFound />} />
+                    <Route path="activity-log" element={<AdminActivityLog />} />
+                    <Route path="notifications" element={<AdminNotifications />} />
+
+                    <Route path="comments" element={<AdminComments />} />
+                    <Route path="comments/trash" element={<CommentTrash />} />
+                    <Route path="comment-reports" element={<CommentReports />} />
 
                 </Route>
             </Route>

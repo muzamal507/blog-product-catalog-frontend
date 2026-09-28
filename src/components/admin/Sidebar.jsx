@@ -1,57 +1,51 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 
 const MENU = [
-  {
-    icon: '📊', label: 'Dashboard',
-    to: '/admin', exact: true
-  },
+  { icon: '📊', label: 'Dashboard', to: '/admin', exact: true },
   {
     icon: '🛒', label: 'Catalog', group: true,
     children: [
-      { icon: '📦', label: 'Products',    to: '/admin/products'           },
-      { icon: '🏷️', label: 'Brands',      to: '/admin/brands'             },
-      { icon: '📂', label: 'Categories',  to: '/admin/product-categories' },
-      { icon: '🎨', label: 'Attributes',  to: '/admin/attributes'         },
+      { icon: '📦', label: 'Products',   to: '/admin/products'           },
+      { icon: '🏷️', label: 'Brands',     to: '/admin/brands'             },
+      { icon: '📂', label: 'Categories', to: '/admin/product-categories' },
+      { icon: '🎨', label: 'Attributes', to: '/admin/attributes'         },
     ]
   },
-  {
-    icon: '🛍️', label: 'Orders',
-    to: '/admin/orders'
-  },
+  { icon: '🛍️', label: 'Orders',       to: '/admin/orders'         },
   {
     icon: '✍️', label: 'Blog', group: true,
     children: [
-      { icon: '📝', label: 'Posts',       to: '/admin/blogs'              },
-      { icon: '📂', label: 'Categories',  to: '/admin/blog-categories'    },
-      { icon: '🏷️', label: 'Tags',        to: '/admin/blog-tags'          },
-      { icon: '📄', label: 'Pages',       to: '/admin/pages'              },
+      { icon: '📝', label: 'Posts',      to: '/admin/blogs'           },
+      { icon: '📂', label: 'Categories', to: '/admin/blog-categories' },
+      { icon: '🏷️', label: 'Tags',       to: '/admin/blog-tags'       },
+      { icon: '📄', label: 'Pages',      to: '/admin/pages'           },
+      { icon: '💬', label: 'Comments',   to: '/admin/comments'        },
+      { icon: '🚩', label: 'Reports',    to: '/admin/comment-reports' },
     ]
   },
+  { icon: '🖼️', label: 'Sliders',      to: '/admin/sliders'            },
+  { icon: '⭐', label: 'Testimonials', to: '/admin/testimonials'       },
+  { icon: '📧', label: 'Newsletter',   to: '/admin/newsletter'         },
+  { icon: '📬', label: 'Messages',     to: '/admin/contact-messages'   },
+  // ✅ Users Management
+  { icon: '👥', label: 'Users',        to: '/admin/users'              },
   {
-    icon: '🖼️', label: 'Sliders',
-    to: '/admin/sliders'
-  },
-  {
-    icon: '⭐', label: 'Testimonials',
-    to: '/admin/testimonials'
-  },
-  {
-    icon: '📧', label: 'Newsletter',
-    to: '/admin/newsletter'
-  },
-  {
-    icon: '📬', label: 'Messages',
-    to: '/admin/contact-messages'
-  },
-  {
-    icon: '⚙️', label: 'Settings',
-    to: '/admin/settings'
+    icon: '⚙️', label: 'Config', group: true,
+    children: [
+      { icon: '🗺️', label: 'Menus',        to: '/admin/menus'        },
+      { icon: '🔍', label: 'SEO Settings', to: '/admin/seo-settings' },
+      { icon: '🔔', label: 'Notifications', to: '/admin/notifications' },
+      { icon: '📋', label: 'Activity Log',  to: '/admin/activity-log' },
+      { icon: '⚙️', label: 'Settings',      to: '/admin/settings'     },
+    ]
   },
 ]
 
 function Sidebar({ open, onClose }) {
   const location = useLocation()
+  const { admin } = useAuth()
 
   // Track which groups are open
   const [openGroups, setOpenGroups] = useState(() => {
@@ -94,19 +88,31 @@ function Sidebar({ open, onClose }) {
   const SidebarContent = () => (
     <div className="d-flex flex-column h-100">
       {/* Logo */}
-      <div className="px-4 py-3 d-flex align-items-center justify-content-between"
-        style={{ borderBottom: '1px solid rgba(255,255,255,.08)' }}>
-        <Link to="/admin" className="text-decoration-none"
-          onClick={() => window.innerWidth < 992 && onClose?.()}>
-          <span className="fw-bold text-white" style={{ fontSize: 18, letterSpacing: 0.5 }}>
-            Aero<span style={{ color: '#00b894' }}>Lux</span>
-          </span>
-          <span className="text-muted ms-2" style={{ fontSize: 11 }}>Admin</span>
+      <div className="px-2 py-1 d-flex align-items-center justify-content-between"
+        style={{borderBottom: '1px solid rgba(255,255,255,.08)'}} >
+        <Link to="/admin" className="text-decoration-none d-flex align-items-center"
+          onClick={() => window.innerWidth < 992 && onClose?.()} >
+
+          {/* Logo */}
+          <img src="/tech-logo-w.png" alt="Tahir Logo"
+            style={{height: 56, width: 46, objectFit: 'contain', flexShrink: 0}} />
+
+          {/* Text */}
+          <div className="ms-2 d-flex flex-column justify-content-center" style={{lineHeight: 1.2}} >
+            <span className="fw-bold text-white" style={{fontSize: 14}} >
+              Tahir Tech Solution
+            </span>
+            <span className="fw-semibold" style={{fontSize: 11, color: '#00b894', marginTop: 3}} >
+              Admin Panel
+            </span>
+          </div>
         </Link>
+
         {/* Close button — mobile only */}
-        <button className="btn btn-sm d-lg-none"
-          style={{ color: '#8fa3b8', background: 'none', border: 'none' }}
-          onClick={onClose}>✕</button>
+        <button className="btn btn-sm d-lg-none" style={{color: '#8fa3b8', background: 'none',
+            border: 'none'}} onClick={onClose} >
+          ✕
+        </button>
       </div>
 
       {/* Nav */}
@@ -210,20 +216,25 @@ function Sidebar({ open, onClose }) {
       </nav>
 
       {/* Footer */}
-      <div className="px-4 py-3" style={{ borderTop: '1px solid rgba(255,255,255,.08)' }}>
+      <div className="px-4 py-3" style={{ borderTop: '1px solid rgba(255,255,255,.08)'}} >
         <div className="d-flex align-items-center gap-2">
-          <div style={{
-            width: 32, height: 32, borderRadius: '50%',
-            background: '#00b894', color: '#fff',
-            display: 'flex', alignItems: 'center',
-            justifyContent: 'center', fontWeight: 700, fontSize: 14
-          }}>A</div>
+          {/* User Avatar */}
+          <div style={{width: 32, height: 32, borderRadius: '50%', background: '#00b894',
+              color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontWeight: 700, fontSize: 14, flexShrink: 0}}
+          >
+            {admin?.name?.charAt(0)?.toUpperCase() || 'A'}
+          </div>
+
+          {/* User Details */}
           <div style={{ minWidth: 0 }}>
-            <div className="text-white fw-semibold text-truncate" style={{ fontSize: 13 }}>
-              Admin
+            <div className="text-white fw-semibold text-truncate" style={{ fontSize: 13 }} >
+              {admin?.name || 'Admin'}
             </div>
-            <small className="text-muted" style={{ fontSize: 11, background: '#424444', 
-              color: '#d4d1d1',}}>Administrator</small>
+            <small className="text-muted" style={{fontSize: 11, background: '#424444',
+                color: '#d4d1d1'}} >
+              {localStorage.getItem('admin_role') || 'Administrator'}
+            </small>
           </div>
         </div>
       </div>
